@@ -24,44 +24,44 @@ let db = new sqlite3.Database('users.db', (err) => {
 
 
 router.get('/', (req, res) => {
-	res.render('search-page.ejs');
+	res.render('list-page.ejs');
 });
 
 router.get('/users/:user', (req, res) => {
-	// 	Which returns the list of indices the user foo has access to through a
-	// database call.
+	console.log(req.query)
+	if(req.query.firstname === undefined){
+		res.send({error: 'Must define a request body'});
+	}
+	else {
 	// var user = req.params.user.toString();
-	var user = 'foo';
-	var firstName = req.query.firstname.toString();
-	getUserIndicies(user).then( (data) => {
-		console.log(data);
-		getDocuments(data, firstName).then( (docs) => {
-			var documents = JSON.parse(docs).hits.hits;
-			console.log(documents);
-			var results = [];
-			for(var i=0; i<documents.length; i++) {
-				var record = {
-					id: "",
-					full_name: "",
-					location: "",
+		var user = 'foo';
+		var firstName = req.query.firstname.toString();
+		getUserIndicies(user).then( (data) => {
+			getDocuments(data, firstName).then( (docs) => {
+				var documents = JSON.parse(docs).hits.hits;
+				var results = [];
+				for(var i=0; i<documents.length; i++) {
+					var record = {
+						id: "",
+						full_name: "",
+						location: "",
+					}
+					record.id = documents[i]._id;
+					record.full_name = documents[i]._source.first_name +" "+documents[i]._source.last_name;
+					record.location = documents[i]._source.location;
+					results.push(record);
 				}
-				record.id = documents[i]._id;
-				record.full_name = documents[i]._source.first_name +" "+documents[i]._source.last_name;
-				record.location = documents[i]._source.location;
-				results.push(record);
-			}
-			console.log(results);
-			res.render('list-page.ejs', {results});
+				//res.render('list-page.ejs', {results});
+				res.send({results:results});
 
-		})
-	});
-
-// The user foo should be able to search for all documents in Elasticsearch with
-// which have the first_name fred
+			})
+		});
+	}
 });
 
 
 function getUserIndicies(user) {
+	// 	Which returns the list of indices the user foo has access to through a database call
 	return new Promise((resolve, reject) => {
 		let query = `SELECT * FROM useraccess WHERE user = '${user}'`;
 		db.all(query, [], (err, rows) => {
@@ -75,6 +75,8 @@ function getUserIndicies(user) {
 };
 
 function getDocuments(indices, firstName) {
+	// The user foo should be able to search for all documents in Elasticsearch with which have the first_name fred
+	// or submitted first name
 	return new Promise( ( resolve, reject ) => {
 		var url_string = `http://localhost:9200/foo_index/_search?pretty=true&q=first_name:${firstName}`;
 	    const options = {
