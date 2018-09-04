@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Signafire Code Challenge</title>
+
+		<style type="text/css">
+			.results-list{
+				margin: 5px;
+			}
+	</style>
+	</head>
+
+	<body>
+		<div>
+			<h4>
+				Logged-in as user: foo
+			</h4>
+		</div>
+		<div>
+			<form>
+				<input type="text" name="firstname">
+				<input type="submit">
+			</form>
+		</div>
+		<%console.log(results)%>
+		<% for(var i=0; i<results.length; i++){ %>
+			<div class="results-list">
+			    <p><%=results[i].full_name %></p>
+			    <p><%=results[i].location %></p>
+			</div>
+			<hr >
+		<%}%>
+
+
+	</body>
+</html>
