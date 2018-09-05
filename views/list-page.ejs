@@ -4,25 +4,31 @@
 		<title>Signafire Code Challenge</title>
 
 		<style type="text/css">
-			.results-list{
+			#form-container {
+				text-align: center;
+			}
+			.results-list {
 				margin: 8px;
 			}
 	</style>
 	</head>
 
 	<body>
-		<div>
-			<h4>
-				Logged-in as user: foo
-			</h4>
+		<div id="form-container">
+			<div>
+				<h4>
+					Logged-in as user: <%=user%>
+				</h4>
+			</div>
+			<div>
+				<form method="GET" action="/users/<%=user%>">
+					<input type="text" name="firstname">
+					<input type="submit" value="Search">
+				</form>
+			</div>
 		</div>
 		<div>
-			<form method="GET" action="/users/foo">
-				<input type="text" name="firstname">
-				<input type="submit">
-			</form>
-		</div>
-		<div>
+			<!-- rendering of results -->
 			<% for(var i=0; i<results.length; i++){ %>
 				<div class="results-list">
 				    <p><%=results[i].full_name %></p>

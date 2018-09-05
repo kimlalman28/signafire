@@ -14,6 +14,10 @@ SQLite Set-Up
 <br />indices field stores an index that is in elasticsearch
 <br />access field stores 1 is user has access or 0 if the user does not have access to that index in elasticsearch
 - demo entry: **insert into useraccess (user, indices, access) values ('foo', 'foo_index', 1);**
+user foo has access to foo_index
+- demo entry: **insert into useraccess (user, indices, access) values ('foo', 'foo_index2', 0);**
+user foo does not have access to foo_index2
+
 
 Elasticsearch Set-Up
 --------------
@@ -32,6 +36,8 @@ I inserted some documents formatted in this way:
 		"location": "New York"
 	}**
 
+*It is assumed that indices that a user is given access to exists in the elasticsearch datastore*
+
 Running Application
 --------------
 Before running the application, in the root directory, at the command line, type
@@ -45,8 +51,9 @@ to install any dependencies such as (express, sqlite3, request, etc...)
 The application will be running on port 3000.
 <br />Visit the application at **localhost:3000/**
 
-<br />foo is assumed to be an authenticated user currently using the service.
+**foo** is assumed to be an authenticated user currently using the service. This can be changed in the api-routes.js file under the 
+variable named *assumedAuthenticatedUser*.
 <br />Enter a first name into the search box. 
 <br />This will signal a database call to retrieve the indices foo can access. That information is then 
-used to access indices in elasticsearch and will return documents in those indices with the requested first name
+used to access indices in elasticsearch and will return documents in those indices with the requested first name.
 
