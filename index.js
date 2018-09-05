@@ -12,7 +12,7 @@ app.set('views', './views')
 
 const apiRoutes = require('./routes/api-routes');
 app.get('/', apiRoutes);
-app.get('/users/foo', apiRoutes);
+app.get('/users/:user', apiRoutes);
 
 
 app.listen(port, () => {

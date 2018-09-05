@@ -17,37 +17,19 @@
 			</h4>
 		</div>
 		<div>
-			<form id="search-form">
-				<input type="text" name="firstname" id="search-input">
+			<form method="GET" action="/users/foo">
+				<input type="text" name="firstname">
 				<input type="submit">
 			</form>
 		</div>
-		<div id="results"></div>
-
-
-	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-   <script>
-
-   	$('#search-form').submit(function(event) {
-		event.preventDefault();
-		var resultDiv = document.getElementById("results");
-		while (resultDiv.firstChild) {
-    		resultDiv.removeChild(resultDiv.firstChild);
-		}
-	   	$.ajax( {
-			url: '/users/foo',
-			data: $("#search-form").serialize(),
-			type: 'GET',
-			success: function(data) {
-				items = data.results;
-				for(var i=0; i<items.length; i++) {
-				   $('#results').append(`<div class="results-list">${items[i].full_name}<br />${items[i].location}</div>`);
-				}
-			}
-	   });
-	});
-
-   </script>
-
+		<div>
+			<% for(var i=0; i<results.length; i++){ %>
+				<div class="results-list">
+				    <p><%=results[i].full_name %></p>
+				    <p><%=results[i].location %></p>
+				</div>
+				<hr >
+			<%}%>
+		</div>
 	</body>
 </html>
