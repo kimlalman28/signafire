@@ -51,7 +51,7 @@ to install any dependencies such as (express, sqlite3, request, etc...)
 The application will be running on port 3000.
 <br />Visit the application at **localhost:3000/**
 
-**foo** is assumed to be an authenticated user currently using the service. This can be changed in the api-routes.js file under the 
+**foo** is assumed to be an authenticated user currently using the service. This can be changed in the routes/api-routes.js file under the 
 variable named *assumedAuthenticatedUser*.
 <br />Enter a first name into the search box. 
 <br />This will signal a database call to retrieve the indices foo can access. That information is then 
